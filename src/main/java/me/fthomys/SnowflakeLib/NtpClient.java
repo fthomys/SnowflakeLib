@@ -10,10 +10,26 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
- * A flexible and robust NTP client with timezone-aware timestamp features.
+ * A simple NTP client to fetch the current time from an NTP server.
+ * <p>
+ * This class provides methods to fetch the current timestamp from a specified NTP server
+ * and convert it into various date/time formats.
  */
 public class NtpClient {
 
+    /**
+     * Retrieves an NTP timestamp from the specified NTP server.
+     * The method sends a request to the server and receives a response containing
+     * the current network time protocol (NTP) timestamp.
+     * This timestamp consists of the number of seconds and fractional seconds
+     * since January 1, 1900.
+     *
+     * @param server The NTP server hostname or IP address to query.
+     * @param port The port number on the server to connect to, typically 123 for NTP.
+     * @param timeoutMillis The timeout in milliseconds for the socket connection.
+     * @return An {@code NtpTimestamp} object representing the retrieved time,
+     *         or {@code null} if an error occurs (e.g., timeout or network issue).
+     */
     public static NtpTimestamp fetchTimestamp(String server, int port, int timeoutMillis) {
         try (DatagramSocket socket = new DatagramSocket()) {
             InetAddress address = InetAddress.getByName(server);
@@ -43,6 +59,15 @@ public class NtpClient {
         }
     }
 
+    /**
+     * Fetches the current time in milliseconds from the specified NTP server.
+     * If the server does not respond or an error occurs, the method returns null.
+     * Internally, it utilizes the {@code fetchTimestamp} method to retrieve an NTP timestamp.
+     *
+     * @param server The hostname or IP address of the NTP server to query.
+     * @return The current time in milliseconds since the Unix epoch, or null if the timestamp
+     *         could not be retrieved.
+     */
     public static Long fetchTime(String server) {
         NtpTimestamp ts = fetchTimestamp(server, 123, 1000);
         return ts != null ? ts.getUnixMillis() : null;

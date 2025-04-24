@@ -1,6 +1,13 @@
 package me.fthomys.SnowflakeLib;
 
 
+/**
+ * SnowflakeFactory is a builder class for creating instances of {@link SnowflakeGenerator}.
+ * It provides configuration options for customizing the parameters used in ID generation.
+ *
+ * The SnowflakeFactory allows adjusting parameters such as the epoch, worker ID, and process ID,
+ * as well as enabling or disabling NTP-based clock drift detection and specifying a custom NTP server.
+ */
 public class SnowflakeFactory {
     private long epoch = 1609459200000L;
     private int workerId = 1;
