@@ -63,7 +63,6 @@ public final class SnowflakeGenerator {
         }
 
 
-
         Long ntpTime = NtpClient.fetchTime(ntpServer);
         if (ntpTime == null) return;
 
@@ -80,7 +79,8 @@ public final class SnowflakeGenerator {
         while (now <= current) {
             try {
                 Thread.sleep(0, 10000);
-            } catch (InterruptedException ignored) {}
+            } catch (InterruptedException ignored) {
+            }
             now = System.currentTimeMillis();
         }
         return now;
