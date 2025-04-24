@@ -10,6 +10,9 @@ public class SnowflakeDecoderFactory {
         if (type == DecoderType.DISCORD) {
             return new DiscordSnowflakeDecoder();
         }
+        if (type == DecoderType.TWITTER) {
+            return new TwitterSnowflakeDecoder();
+        }
         return new DefaultSnowflakeDecoder(customEpoch);
     }
 }

@@ -1,20 +1,17 @@
 package me.fthomys.SnowflakeLib;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class DefaultSnowflakeDecoder implements SnowflakeDecoder {
     private final long epoch;
 
-    public DefaultSnowflakeDecoder(long epoch) {
+    public DefaultSnowflakeDecoder(Long epoch) {
         this.epoch = epoch;
     }
 
     @Override
-    public DecodedId decode(String idStr, String format, String timezone) {
-        long id = Long.parseLong(idStr);
+    public DecodedId decode(Long id) {
 
         long timestamp = (id >> 22) + epoch;
         int workerId = (int) ((id >> 17) & 0x1F);
@@ -24,6 +21,7 @@ public class DefaultSnowflakeDecoder implements SnowflakeDecoder {
         Instant instant = Instant.ofEpochMilli(timestamp);
         Date date = new Date(timestamp);
 
-        return new DecodedId(timestamp, workerId, processId, sequence, timezone, date, instant);
+        return new DecodedId(timestamp, workerId, processId, sequence, date, instant);
     }
+
 }

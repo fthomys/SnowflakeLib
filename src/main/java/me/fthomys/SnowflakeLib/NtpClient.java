@@ -21,7 +21,7 @@ public class NtpClient {
 
         public NtpTimestamp(long unixSeconds, long fractionalPart) {
             this.unixSeconds = unixSeconds;
-            this.fractionalMillis = fractionalPart / 4294967L; // 2^32 ~= 4,294,967,296
+            this.fractionalMillis = fractionalPart / 4294967L;
             this.unixMillis = (unixSeconds * 1000L) + fractionalMillis;
         }
 

@@ -17,4 +17,11 @@ public class SnowflakeDecoderFactoryTest {
         SnowflakeDecoder decoder = SnowflakeDecoderFactory.create(DecoderType.DISCORD);
         assertInstanceOf(DiscordSnowflakeDecoder.class, decoder);
     }
+
+    @Test
+    public void testCreateDefaultDecoderWithCustomEpoch() {
+        long customEpoch = 1609459200000L;
+        SnowflakeDecoder decoder = SnowflakeDecoderFactory.create(DecoderType.DEFAULT, customEpoch);
+        assertInstanceOf(DefaultSnowflakeDecoder.class, decoder);
+    }
 }

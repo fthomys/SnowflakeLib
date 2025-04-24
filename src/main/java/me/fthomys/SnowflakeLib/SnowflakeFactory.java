@@ -4,9 +4,14 @@ package me.fthomys.SnowflakeLib;
 public class SnowflakeFactory {
     private long epoch = 1609459200000L;
     private int workerId = 1;
-    private int processId = 1;
+    private int processId = getProcessIdFromRuntimeMxBean();
     private boolean ntpCheck = false;
     private String ntpServer = "0.de.pool.ntp.org";
+
+    private int getProcessIdFromRuntimeMxBean() {
+        String name = java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+        return Integer.parseInt(name.split("@")[0]);
+    }
 
     public SnowflakeFactory withEpoch(long epoch) {
         this.epoch = epoch;
@@ -28,7 +33,7 @@ public class SnowflakeFactory {
         return this;
     }
 
-    public SnowflakeFactory withNtpServer(String ntpServer) {
+    public SnowflakeFactory withCustomNtpServer(String ntpServer) {
         this.ntpServer = ntpServer;
         return this;
     }

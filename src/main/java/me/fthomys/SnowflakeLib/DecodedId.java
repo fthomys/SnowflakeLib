@@ -8,17 +8,15 @@ public class DecodedId {
     private final int workerId;
     private final int processId;
     private final int sequence;
-    private final String timezone;
     private final Date date;
     private final Instant instant;
 
     public DecodedId(long timestamp, int workerId, int processId, int sequence,
-                     String timezone, Date date, Instant instant) {
+                     Date date, Instant instant) {
         this.timestamp = timestamp;
         this.workerId = workerId;
         this.processId = processId;
         this.sequence = sequence;
-        this.timezone = timezone;
         this.date = new Date(date.getTime());
         this.instant = instant;
     }
@@ -39,9 +37,6 @@ public class DecodedId {
         return sequence;
     }
 
-    public String getTimezone() {
-        return timezone;
-    }
 
     public Date getDate() {
         return date;
@@ -58,7 +53,6 @@ public class DecodedId {
                 ", workerId=" + workerId +
                 ", processId=" + processId +
                 ", sequence=" + sequence +
-                ", timezone='" + timezone + '\'' +
                 ", instant=" + instant +
                 ", date=" + date +
                 '}';

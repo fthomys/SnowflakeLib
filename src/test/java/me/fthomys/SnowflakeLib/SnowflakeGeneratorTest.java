@@ -17,9 +17,9 @@ public class SnowflakeGeneratorTest {
                 .withProcessId(1)
                 .build();
 
-        Set<String> ids = new HashSet<>();
+        Set<Long> ids = new HashSet<>();
         for (int i = 0; i < 1000000; i++) {
-            String id = generator.generateId();
+            Long id = generator.generateId();
             assertFalse(ids.contains(id), "Duplicate ID generated");
             ids.add(id);
         }
@@ -28,9 +28,9 @@ public class SnowflakeGeneratorTest {
     @Test
     public void testMonotonicity() {
         SnowflakeGenerator generator = new SnowflakeFactory().build();
-        long last = Long.parseLong(generator.generateId());
+        long last = generator.generateId();
         for (int i = 0; i < 100000; i++) {
-            long current = Long.parseLong(generator.generateId());
+            long current = generator.generateId();
             assertTrue(current > last, "IDs not monotonically increasing");
             last = current;
         }

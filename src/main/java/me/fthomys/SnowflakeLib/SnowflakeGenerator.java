@@ -25,7 +25,7 @@ public final class SnowflakeGenerator {
         if (ntpCheck) checkClockDrift();
     }
 
-    public String generateId() {
+    public Long generateId() {
         lock.lock();
         try {
             long now = System.currentTimeMillis();
@@ -45,12 +45,10 @@ public final class SnowflakeGenerator {
 
             lastTimestamp = now;
 
-            long id = ((now - epoch) << 22) |
+            return ((now - epoch) << 22) |
                     ((long) workerId << 17) |
                     ((long) processId << 12) |
                     sequence;
-
-            return Long.toString(id);
         } finally {
             lock.unlock();
         }
