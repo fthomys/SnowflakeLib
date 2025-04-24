@@ -35,5 +35,45 @@ public class SnowflakeGeneratorTest {
             last = current;
         }
     }
+
+    @Test
+    public void testThreadedIdGeneration() throws InterruptedException {
+        SnowflakeGenerator generator = new SnowflakeFactory().build();
+        Set<Long> ids = new HashSet<>();
+        Thread[] threads = new Thread[10];
+
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new Thread(() -> {
+                for (int j = 0; j < 10000; j++) {
+                    Long id = generator.generateId();
+                    synchronized (ids) {
+                        assertFalse(ids.contains(id), "Duplicate ID generated in thread");
+                        ids.add(id);
+                    }
+                }
+            });
+            threads[i].start();
+        }
+
+        for (Thread thread : threads) {
+            thread.join();
+        }
+    }
+
+    @Test
+    public void testNtpCheckEnabled() {
+        SnowflakeGenerator generator = new SnowflakeFactory()
+                .withEpoch(1609459200000L)
+                .withWorkerId(1)
+                .withProcessId(1)
+                .enableNtpCheck(true)
+                .build();
+
+        long id = generator.generateId();
+        long currentTime = System.currentTimeMillis();
+        long generatedTime = (id >> 22) + 1609459200000L;
+        assertTrue(generatedTime <= currentTime, "Generated ID timestamp is in the future");
+        assertTrue(generatedTime >= currentTime - 1000, "Generated ID timestamp is too far in the past");
+    }
 }
 
