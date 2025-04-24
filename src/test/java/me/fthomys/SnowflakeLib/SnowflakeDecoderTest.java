@@ -22,6 +22,6 @@ public class SnowflakeDecoderTest {
         assertNotNull(decoded);
         assertEquals(2, decoded.getWorkerId());
         assertEquals(3, decoded.getProcessId());
-        assertNotNull(decoded.getDatetime());
+        assertNotNull(decoded.getDate());
     }
 }

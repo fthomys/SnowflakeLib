@@ -2,7 +2,7 @@ package me.fthomys.SnowflakeLib;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class DefaultSnowflakeDecoder implements SnowflakeDecoder {
@@ -12,6 +12,7 @@ public class DefaultSnowflakeDecoder implements SnowflakeDecoder {
         this.epoch = epoch;
     }
 
+    @Override
     public DecodedId decode(String idStr, String format, String timezone) {
         long id = Long.parseLong(idStr);
 
@@ -21,10 +22,8 @@ public class DefaultSnowflakeDecoder implements SnowflakeDecoder {
         int sequence = (int) (id & 0xFFF);
 
         Instant instant = Instant.ofEpochMilli(timestamp);
-        String formatted = DateTimeFormatter.ofPattern(format)
-                .withZone(ZoneId.of(timezone == null ? TimeZone.getDefault().getID() : timezone))
-                .format(instant);
+        Date date = new Date(timestamp);
 
-        return new DecodedId(timestamp, formatted, workerId, processId, sequence, timezone);
+        return new DecodedId(timestamp, workerId, processId, sequence, timezone, date, instant);
     }
 }

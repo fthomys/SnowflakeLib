@@ -1,4 +1,6 @@
 package me.fthomys.SnowflakeLib;
+
+
 public class SnowflakeFactory {
     private long epoch = 1609459200000L;
     private int workerId = 1;

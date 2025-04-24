@@ -18,7 +18,7 @@ public class SnowflakeGeneratorTest {
                 .build();
 
         Set<String> ids = new HashSet<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1000000; i++) {
             String id = generator.generateId();
             assertFalse(ids.contains(id), "Duplicate ID generated");
             ids.add(id);
@@ -29,7 +29,7 @@ public class SnowflakeGeneratorTest {
     public void testMonotonicity() {
         SnowflakeGenerator generator = new SnowflakeFactory().build();
         long last = Long.parseLong(generator.generateId());
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100000; i++) {
             long current = Long.parseLong(generator.generateId());
             assertTrue(current > last, "IDs not monotonically increasing");
             last = current;
