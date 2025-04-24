@@ -11,6 +11,7 @@ jobs:
 
     env:
       VERSION: ${{ github.ref_name }}
+      TIMESTAMP: ${{ github.run_id }}-${{ github.run_number }}-build${{ github.run_attempt }}
 
     steps:
       - name: Checkout code
@@ -29,7 +30,16 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Set version from tag
-        run: mvn versions:set -DnewVersion=${{ env.VERSION }} -DgenerateBackupPoms=false
+        run: |
+          VERSION_CLEAN=${VERSION#v}
+          echo "Using Git tag version: $VERSION_CLEAN"
+          mvn versions:set -DnewVersion=$VERSION_CLEAN -DgenerateBackupPoms=false
+
+      - name: Set build metadata
+        run: |
+          echo "Appending build info to manifest"
+          echo "Implementation-Version: $VERSION" >> build.properties
+          echo "Implementation-Build: $TIMESTAMP" >> build.properties
 
       - name: Deploy to Maven Central
         run: mvn -B deploy -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
