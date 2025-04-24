@@ -14,7 +14,6 @@ public class SnowflakeDecoderTest {
     @Test
     public void testDecodeKnownDiscordSnowflake() {
         long id = 175928847299117063L;
-        long ts = 1330779680;
         DiscordSnowflakeDecoder decoder = new DiscordSnowflakeDecoder();
         String format = "yyyy-MM-dd HH:mm:ss";
 
@@ -38,7 +37,7 @@ public class SnowflakeDecoderTest {
     }
 
     @Test
-    public void testDecodeValidSnowflake() {
+    public void testDecodeValidTwitterSnowflake() {
         long customTimestamp = 1577836800000L;
         long timestampPart = (customTimestamp - TwitterSnowflakeDecoder.TWITTER_EPOCH) << 22;
 
